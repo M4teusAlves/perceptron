@@ -6,11 +6,19 @@ public class PerceptronApplication {
     private float b;
 
     public PerceptronApplication() {
+
+        float limiar = 0;
+        float w[] = new float[64]; //Um peso para cada entrada.
+        float target [] = {-1, 1}; //Duas possíveis saídas.
+        float alfa = 0.01F;//taxa de aprendizagem 0<X<=1.
+        float yLiq =0;
+        int contCiclo=0;
+        float y;
+        int lin, col;
+        int condErro=1;
+        float teste;
+
         float[][] entrada = new float[2][64]; // 64 valores e dois padrões (A e B).
-        float[] y = {1, -1}; // O 1 é para A e -1 é para B.
-        float[] deltaW = new float[64];
-        float deltaB, deltaTeste;
-        int[] teste = new int[2];
 
         this.b = 0;
 
@@ -37,17 +45,36 @@ public class PerceptronApplication {
         entrada[1][43] = entrada[1][49] = entrada[1][51] = entrada[1][57] = entrada[1][58] = 1;
         entrada[1][59] = 1;
 
-        // Aplicação da regra de Hebb
-        for (int cont1 = 0; cont1 < 2; cont1++) {
-            for (int cont2 = 0; cont2 < 64; cont2++) {
-                deltaW[cont2] = entrada[cont1][cont2] * y[cont1];
-            }
-            deltaB = y[cont1];
+        // Aplicação da regra Perceptron
+        while (condErro == 1) {
+            condErro = 0;
+            lin = 0;
+            while (lin < 2) {
+                yLiq = 0;
+                col = 0;
+                while(col<64){
+                    yLiq = yLiq + (entrada[lin][col]*w[col]);
+                    col++;
+                }
+                yLiq = yLiq + this.b;
+                if (yLiq>=limiar) {
+                    y = 1;
+                }else {
+                    y = -1;
+                }
 
-            for (int cont2 = 0; cont2 < 64; cont2++) {
-                this.w[cont2] = this.w[cont2] + deltaW[cont2];
+                if(y != target[lin]){
+                    condErro = 1;
+                    col = 0;
+                    while(col<64){
+                        w[col] = w[col ] + (alfa * target[lin] * entrada[lin][col]);
+                        col++;
+                    }
+                    this.b = this.b + (alfa * target[lin]);
+                }
+                lin++;
             }
-            this.b = this.b + deltaB;
+            contCiclo++;
         }
 
 

@@ -2,8 +2,8 @@ package br.com.am;
 
 public class PerceptronTester {
 
-    private float[] w;
     private float b;
+    private float[] w;
 
     // Construtor para inicializar os pesos e o bias
     public PerceptronTester(float[] w, float b) {
@@ -14,18 +14,19 @@ public class PerceptronTester {
     // Metodo para realizar o teste com uma única matriz de entrada
     public int testar(float[] entrada) {
 
-        // Realizar o teste com a matriz de entrada
-        float deltaTeste = 0; // Somatório
-        for (int cont2 = 0; cont2 < 64; cont2++) {
-            deltaTeste += w[cont2] * entrada[cont2];
-        }
-        deltaTeste += b;
+        float teste = 0;
 
-        // Retorna o resultado do teste
-        if (deltaTeste >= 0) {
-            return 1; // Isso é um A
-        } else {
-            return -1; // Isso é um B
+        for(int i = 0; i<64; i++){
+            teste = teste + (entrada[i] * this.w[i]);
+        }
+
+        teste = teste + b;
+
+        if(teste >= 0)
+        {
+            return 1;
+        }else{
+            return -1;
         }
     }
 

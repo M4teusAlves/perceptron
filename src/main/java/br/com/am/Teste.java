@@ -110,7 +110,7 @@ public class Teste  extends JFrame{
 
     public Teste(){
 
-        HebbApplication application = new HebbApplication();
+        PerceptronApplication application = new PerceptronApplication();
         PerceptronTester tester = new PerceptronTester(application.getW(), application.getB());
 
 
